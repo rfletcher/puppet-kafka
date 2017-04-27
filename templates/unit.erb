@@ -1,0 +1,25 @@
+[Unit]
+Description=Apache Kafka server (<%= (@service_name.split(/-/)[1] and @service_name.split(/-/)[1].capitalize) or 'broker' -%>)
+Documentation=http://kafka.apache.org/documentation.html
+
+[Service]
+Type=simple
+User=kafka
+Group=kafka
+SyslogIdentifier=<%= @service_name %>
+Environment='KAFKA_HEAP_OPTS=<%= @heap_opts.join( ' ' ) %>'
+Environment='KAFKA_LOG4J_OPTS=<%= @log4j_opts.join( ' ' ) %>'
+Environment='KAFKA_JMX_OPTS=<%= @jmx_opts.join( ' ' ) %>'
+<%- case @type 
+  when 'broker' -%>
+Environment='KAFKA_OPTS=<%= @broker_opts %>'
+ExecStart=<%= @install_dir %>/bin/kafka-server-start.sh config/server.properties
+<%- when 'mirror' -%>
+ExecStart=<%= @install_dir %>/bin/kafka-run-class.sh kafka.tools.MirrorMaker --consumer.config config/mirror-<%= @name %>/consumer.properties --num.streams <%= @num_streams -%> --producer.config config/mirror-<%= @name %>/producer.properties<%- if (scope.function_versioncmp([scope.lookupvar('kafka::version'), '0.9.0.0']) < 0) -%> --num.producers <%= @num_producers -%><%- end -%><%- if !@whitelist.eql?('') -%> --whitelist='<%= @whitelist -%>'<%- end %><%- unless [nil, '', :undefined].include?( @blacklist ) -%> --blacklist='<%= @blacklist -%>'<%- end -%> <%= @mirror_opts.join( ' ' ) %>
+<%- end -%>
+LimitNOFILE=65536
+LimitCORE=infinity
+WorkingDirectory=<%= @install_dir %>
+
+[Install]
+WantedBy=multi-user.target

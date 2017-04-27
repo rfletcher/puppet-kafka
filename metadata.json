@@ -1,0 +1,58 @@
+{
+  "name": "puppet-kafka",
+  "version": "1.0",
+  "author": "Rick Fletcher",
+  "summary": "Puppet module for Kafka",
+  "license": "MIT",
+  "source": "https://github.com/rfletcher/puppet-kafka",
+  "project_page": "https://github.com/rfletcher/puppet-kafka",
+  "issues_url": "https://github.com/rfletcher/puppet-kafka/issues",
+  "dependencies": [
+    {
+      "name": "camptocamp/archive",
+      "version_requirement": ">= 0.8.0"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.11.0"
+    },
+    {
+      "name": "justin8/systemd",
+      "version_requirement": ">= 0.3.0 < 1.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "14.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.6.1 < 5.0.0"
+    }
+  ]
+}
