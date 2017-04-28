@@ -67,6 +67,7 @@ define kafka::private::config(
     exec { "kafka-config-${name} mkdir":
       command => "mkdir -p ${real_config_dir}",
       creates => $real_config_dir,
+      before  => File["${real_config_dir}/${config_name}.properties"],
     }
   } else {
     $real_config_dir = "${::kafka::config_dir}"
