@@ -15,7 +15,7 @@ Environment='KAFKA_JMX_OPTS=<%= @jmx_opts.join( ' ' ) %>'
 Environment='KAFKA_OPTS=<%= @broker_opts %>'
 ExecStart=<%= @install_dir %>/bin/kafka-server-start.sh config/server.properties
 <%- when 'mirror' -%>
-ExecStart=<%= @install_dir %>/bin/kafka-mirror-maker.sh --consumer.config config/mirror-<%= @name %>/consumer.properties --num.streams <%= @num_streams -%> --producer.config config/mirror-<%= @name %>/producer.properties<%- if (scope.function_versioncmp([scope.lookupvar('kafka::version'), '0.9.0.0']) < 0) -%> --num.producers <%= @num_producers -%><%- end -%><%- if !@whitelist.eql?('') -%> --whitelist='<%= @whitelist -%>'<%- end %><%- unless [nil, '', :undefined].include?( @blacklist ) -%> --blacklist='<%= @blacklist -%>'<%- end -%> <%= @mirror_opts.join( ' ' ) %>
+ExecStart=<%= @install_dir %>/bin/kafka-mirror-maker.sh --new.consumer --consumer.config config/mirror-<%= @name %>/consumer.properties --num.streams <%= @num_streams -%> --producer.config config/mirror-<%= @name %>/producer.properties<%- if (scope.function_versioncmp([scope.lookupvar('kafka::version'), '0.9.0.0']) < 0) -%> --num.producers <%= @num_producers -%><%- end -%><%- if !@whitelist.eql?('') -%> --whitelist='<%= @whitelist -%>'<%- end %><%- unless [nil, '', :undefined].include?( @blacklist ) -%> --blacklist='<%= @blacklist -%>'<%- end -%> <%= @mirror_opts.join( ' ' ) %>
 <%- end -%>
 LimitNOFILE=65536
 LimitCORE=infinity
