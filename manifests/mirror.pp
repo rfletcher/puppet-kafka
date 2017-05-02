@@ -23,8 +23,14 @@ define kafka::mirror (
     source_name  => $name,
   }
 
+  if ! $consumer_config['group.id'] {
+    $real_consumer_config = delete( $consumer_config, 'group.id' )
+  } else {
+    $real_consumer_config = $consumer_config
+  }
+
   ::kafka::private::config { "${name}-consumer":
-    config => merge( { 'group.id' => "mirror-${name}", }, $consumer_config ),
+    config => merge( { 'group.id' => "mirror-${name}", }, delete_undef_values( $real_consumer_config ) ),
     type   => 'consumer',
   }
 
